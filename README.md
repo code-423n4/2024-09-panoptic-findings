@@ -1,4 +1,4 @@
-# [Sponsorname] Audit
+# Panoptic Audit
 
 Audit findings are submitted to this repo.
 
