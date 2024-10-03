@@ -1,0 +1,8 @@
+{
+  "contest": 442,
+  "handle": "pkqs90",
+  "risk": "2",
+  "title": "PanopticPool liquidation should use BP_DECREASE_BUFFER to detect solvency for liquidator",
+  "issueId": 4,
+  "issueUrl": "https://github.com/code-423n4/2024-09-panoptic-findings/issues/4"
+}
