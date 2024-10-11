@@ -118,7 +118,7 @@ However, it is possible that `s_poolAssets` is zero. When users are minting shor
 For both functions, if `s_poolAssets == 0`, simply return 0.
 
 **[dyedm1 (Panoptic) confirmed and commented](https://github.com/code-423n4/2024-09-panoptic-findings/issues/3#issuecomment-2392426338):**
- > > However, it is possible that s_poolAssets is zero. When users are minting short positions (equivalent to minting UniswapV3 LP), tokens are sent to UniswapV3. If the amount of tokens happens to be exactly the remainder asset of a CollateralTracker, the updated s_poolAssets would turn to zero.
+ > > "However, it is possible that s\_poolAssets is zero. When users are minting short positions (equivalent to minting UniswapV3 LP), tokens are sent to UniswapV3. If the amount of tokens happens to be exactly the remainder asset of a CollateralTracker, the updated s\_poolAssets would turn to zero."
 > 
 > Good point. This only happens when you can't withdraw anyway though, so this is more of a quirk/incorrect as to spec Low severity issue I think.
 
