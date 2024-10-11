@@ -125,60 +125,9 @@ For both functions, if `s_poolAssets == 0`, simply return 0.
 **[Picodes (judge) decreased severity to Low and commented](https://github.com/code-423n4/2024-09-panoptic-findings/issues/3#issuecomment-2393107103):**
  > At first sight I think @dyedm1 is right!
 
-
-*** 
-
-## [[02] `PanopticPool::getOracleTicks` does not return correct `medianData`](https://github.com/code-423n4/2024-09-panoptic-findings/issues/5)
-
-### Description
-
-According to the code comments, the `getOracleTicks()` function should return the updated medianData. However, it still returns the old data stored in `s_miniMedian`.
-
-```solidity
-    /// @notice Computes and returns all oracle ticks.
-    /// @return currentTick The current tick in the Uniswap pool
-    /// @return fastOracleTick The fast oracle tick computed as the median of the past N observations in the Uniswap Pool
-    /// @return slowOracleTick The slow oracle tick (either composed of Uniswap observations or tracked by `s_miniMedian`)
-    /// @return latestObservation The latest observation from the Uniswap pool
-    /// @return medianData The updated value for `s_miniMedian` (0 if MEDIAN_PERIOD not elapsed) if `pokeMedian` is called at the current state
-    function getOracleTicks()
-        external
-        view
-        returns (
-            int24 currentTick,
-            int24 fastOracleTick,
-            int24 slowOracleTick,
-            int24 latestObservation,
-            uint256 medianData
-        )
-    {
-        (currentTick, fastOracleTick, slowOracleTick, latestObservation, ) = PanopticMath
-            .getOracleTicks(s_univ3pool, s_miniMedian);
-        medianData = s_miniMedian;
-    }
-```
-
-### Code Snippet
-
-- https://github.com/code-423n4/2024-09-panoptic/blob/main/contracts/PanopticPool.sol#L1353
-
-### Recommendation
-
-```solidity
-        (currentTick, fastOracleTick, slowOracleTick, latestObservation, medianData) = PanopticMath
-            .getOracleTicks(s_univ3pool, s_miniMedian);
-        if (medianData == 0) {
-            medianData = s_miniMedian;
-        }
-```
-
-**[dyedm1 (Panoptic) commented](https://github.com/code-423n4/2024-09-panoptic-findings/issues/5#issuecomment-2393977275):**
- > That function does actually return the current value of medianData -- the updated value returned by the library function only goes into effect after a poke is done (so it reflects a potential future state, not the current state).
-
-
 ***
 
-## [[03] `PanopticPool::_checkSolvencyAtTicks` incorrect code comments](https://github.com/code-423n4/2024-09-panoptic-findings/issues/5)
+## [[02] `PanopticPool::_checkSolvencyAtTicks` incorrect code comments](https://github.com/code-423n4/2024-09-panoptic-findings/issues/5)
 
 The code implementation is as follows: if there are multiple `atTicks[]` passed in as parameter:
 
